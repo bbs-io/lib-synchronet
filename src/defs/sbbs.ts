@@ -132,13 +132,13 @@ export enum CON_STATUS {
 /**
  * Terminal mouse reporting mode (console.mouse_mode)
  */
-export enum CON_MOUSE {
-  MOUSE_MODE_OFF = 0, // No terminal mouse reporting enabled/expected
-  MOUSE_MODE_X10 = 1 << 0, // X10 compatible mouse reporting enabled
-  MOUSE_MODE_NORM = 1 << 1, // Normal tracking mode mouse reporting
-  MOUSE_MODE_BTN = 1 << 2, // Button-event tracking mode mouse reporting
-  MOUSE_MODE_ANY = 1 << 3, // Any-event tracking mode mouse reporting
-  MOUSE_MODE_EXT = 1 << 4, // SGR-encoded extended coordinate mouse reporting
+export enum CON_MOUSE_MODE {
+  OFF = 0, // No terminal mouse reporting enabled/expected
+  X10 = 1 << 0, // X10 compatible mouse reporting enabled
+  NORM = 1 << 1, // Normal tracking mode mouse reporting
+  BTN = 1 << 2, // Button-event tracking mode mouse reporting
+  ANY = 1 << 3, // Any-event tracking mode mouse reporting
+  EXT = 1 << 4, // SGR-encoded extended coordinate mouse reporting
 }
 
 /**
@@ -176,23 +176,23 @@ export enum K {
  * Bits in 'mode' for putmsg and printfile
  */
 export enum P {
-  P_NONE = 0, // No special behavior
-  P_NOABORT = 1 << 0, // Disallows abortion of a message
-  P_SAVEATR = 1 << 1, // Save the new current attributres after msg has printed
-  P_NOATCODES = 1 << 2, // Don't allow @ codes
-  P_OPENCLOSE = 1 << 3, // Open and close the file
-  P_NOPAUSE = 1 << 4, // Disable screen pause
-  P_HTML = 1 << 5, // Message is HTML
-  P_NOCRLF = 1 << 6, // Don't prepend a CRLF  in printfile()
-  P_WORDWRAP = 1 << 7, // Word-wrap long lines for user's terminal
-  P_CPM_EOF = 1 << 8, // Treat Ctrl-Z as End-of-file
-  P_TRUNCATE = 1 << 9, // Truncate (don't display) long lines
-  P_NOERROR = 1 << 10, // Don't report error if file doesn't exist
-  P_PETSCII = 1 << 11, // Message is native PETSCII
-  P_WRAP = 1 << 12, // Wrap/split long-lines, ungracefully
-  P_UTF8 = 1 << 13, // Message is UTF-8 encoded
-  P_AUTO_UTF8 = 1 << 14, // Message may be UTF-8, auto-detect
-  P_NOXATTRS = 1 << 15, // No "Extra Attribute Codes" supported
+  NONE = 0, // No special behavior
+  NOABORT = 1 << 0, // Disallows abortion of a message
+  SAVEATR = 1 << 1, // Save the new current attributres after msg has printed
+  NOATCODES = 1 << 2, // Don't allow @ codes
+  OPENCLOSE = 1 << 3, // Open and close the file
+  NOPAUSE = 1 << 4, // Disable screen pause
+  HTML = 1 << 5, // Message is HTML
+  NOCRLF = 1 << 6, // Don't prepend a CRLF  in printfile()
+  WORDWRAP = 1 << 7, // Word-wrap long lines for user's terminal
+  CPM_EOF = 1 << 8, // Treat Ctrl-Z as End-of-file
+  TRUNCATE = 1 << 9, // Truncate (don't display) long lines
+  NOERROR = 1 << 10, // Don't report error if file doesn't exist
+  PETSCII = 1 << 11, // Message is native PETSCII
+  WRAP = 1 << 12, // Wrap/split long-lines, ungracefully
+  UTF8 = 1 << 13, // Message is UTF-8 encoded
+  AUTO_UTF8 = 1 << 14, // Message may be UTF-8, auto-detect
+  NOXATTRS = 1 << 15, // No "Extra Attribute Codes" supported
 }
 
 /**
@@ -464,14 +464,14 @@ export enum TELNET {
  */
 export enum SCAN {
   READ = 0, // Just normal read prompt (all messages)
-  CONST = 1 << 0, // Continuous message scanning
-  NEW = 1 << 1, // Display messages newer than pointer
-  BACK = 1 << 2, // Display most recent message if none new
-  TOYOU = 1 << 3, // Display messages to you only
-  FIND = 1 << 4, // Find text in messages
-  UNREAD = 1 << 5, // Display un-read messages to you only
-  MSGSONLY = 1 << 6, // Do not do a new file scan even if the
-  POLLS = 1 << 7, // Scan for polls only (no messages)
+  CONST = 1, // 1 << 0, // Continuous message scanning
+  NEW = 2, // 1 << 1, // Display messages newer than pointer
+  BACK = 4, // 1 << 2, // Display most recent message if none new
+  TOYOU = 8, // 1 << 3, // Display messages to you only
+  FIND = 16, // 1 << 4, // Find text in messages
+  UNREAD = 32, // 1 << 5, // Display un-read messages to you only
+  MSGSONLY = 64, // 1 << 6, // Do not do a new file scan even if the
+  POLLS = 128, // 1 << 7, // Scan for polls only (no messages)
 }
 
 /**
@@ -559,6 +559,7 @@ export enum GLOB {
  * Bits in the lm_mode of bbs.read_mail()
  */
 export enum LM {
+  DEFAULT = 0, // default / unset
   UNREAD = 1 << 0, // Include un-read mail only
   INCDEL = 1 << 1, // Include deleted mail
   NOSPAM = 1 << 2, // Exclude SPAM
