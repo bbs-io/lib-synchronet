@@ -85,7 +85,11 @@ export interface Bbs {
 
   // receive_file	boolean	bbs.receive_file(filename [,protocol] [,autohang=true])	3.14	received specified filename (complete path) from user via user-prompted (or optionally specified) protocol.
   // When autohang=true, disconnect after transfer based on user's default setting.
-  receive_file(filename: string, protocol?: string, autohang: boolean): boolean;
+  receive_file(
+    filename: string,
+    protocol?: string,
+    autohang?: boolean
+  ): boolean;
 
   // temp_xfer	void	bbs.temp_xfer()	3.10	enter the temporary file tranfer menu
   temp_xfer(): void;
