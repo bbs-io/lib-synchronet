@@ -3,86 +3,114 @@
  * Per RFC 790, September 1981, taken from the BSD file netinet/in.h.
  */
 
-/* $Id: sockdefs.js,v 1.8 2020/04/09 19:16:46 deuce Exp $ */
+// These values come from the Syncrhonet BBS Socket Class
+declare class Socket {
+  static PF_UNSPEC: number;
+  static PF_INET: number;
+  static PF_INET6: number;
+  static AF_INET: number;
+  static AF_INET6: number;
+}
 
 /*
  * Protocols
  */
-export const IPPROTO_IP = 0; /* dummy for IP */
-export const IPPROTO_ICMP = 1; /* control message protocol */
-export const IPPROTO_IGMP = 2; /* internet group management protocol */
-export const IPPROTO_GGP = 3; /* gateway^2 (deprecated) */
-export const IPPROTO_TCP = 6; /* tcp */
-export const IPPROTO_PUP = 12; /* pup */
-export const IPPROTO_UDP = 17; /* user datagram protocol */
-export const IPPROTO_IDP = 22; /* xns idp */
-export const IPPROTO_ND = 77; /* UNOFFICIAL net disk proto */
+export enum IPPROTO {
+  IP = 0, // dummy for IP
+  ICMP = 1, // control message protocol
+  IGMP = 2, // internet group management protocol
+  GGP = 3, // gateway^2 (deprecated)
+  TCP = 6, // tcp
+  PUP = 12, // pup
+  UDP = 17, // user datagram protocol
+  IDP = 22, // xns idp
+  ND = 77, // UNOFFICIAL net disk proto
 
-export const IPPROTO_RAW = 255; /* raw IP packet */
-export const IPPROTO_MAX = 256;
+  RAW = 255, // raw IP packet
+  MAX = 256,
+}
 
-/*
- * Port/socket numbers: network standard functions
+/**
+ * IP Port Functions
  */
-export const IPPORT_ECHO = 7;
-export const IPPORT_DISCARD = 9;
-export const IPPORT_SYSTAT = 11;
-export const IPPORT_DAYTIME = 13;
-export const IPPORT_NETSTAT = 15;
-export const IPPORT_MSP = 18; /* Message Send Protocol */
-export const IPPORT_FTP = 21;
-export const IPPORT_TELNET = 23;
-export const IPPORT_SMTP = 25;
-export const IPPORT_TIMESERVER = 37;
-export const IPPORT_NAMESERVER = 42;
-export const IPPORT_WHOIS = 43;
-export const IPPORT_MTP = 57;
+export enum IPPORT {
+  /*
+   * Port/socket numbers: network standard functions
+   */
+  ECHO = 7,
+  DISCARD = 9,
+  SYSTAT = 11,
+  DAYTIME = 13,
+  NETSTAT = 15,
+  MSP = 18 /* Message Send Protocol */,
+  FTP = 21,
+  TELNET = 23,
+  SMTP = 25,
+  TIMESERVER = 37,
+  NAMESERVER = 42,
+  WHOIS = 43,
+  MTP = 57,
 
-/*
- * Port/socket numbers: host specific functions
- */
-export const IPPORT_TFTP = 69;
-export const IPPORT_RJE = 77;
-export const IPPORT_FINGER = 79;
-export const IPPORT_TTYLINK = 87;
-export const IPPORT_SUPDUP = 95;
+  /*
+   * Port/socket numbers: host specific functions
+   */
+  TFTP = 69,
+  RJE = 77,
+  FINGER = 79,
+  TTYLINK = 87,
+  SUPDUP = 95,
 
-/*
- * UNIX TCP sockets
- */
-export const IPPORT_EXECSERVER = 512;
-export const IPPORT_LOGINSERVER = 513;
-export const IPPORT_CMDSERVER = 514;
-export const IPPORT_EFSSERVER = 520;
+  /*
+   * UNIX TCP sockets
+   */
+  EXECSERVER = 512,
+  LOGINSERVER = 513,
+  CMDSERVER = 514,
+  EFSSERVER = 520,
 
-/*
- * UNIX UDP sockets
- */
-export const IPPORT_BIFFUDP = 512;
-export const IPPORT_WHOSERVER = 513;
-export const IPPORT_ROUTESERVER = 520;
-/* 520+1 also used */
+  /*
+   * UNIX UDP sockets
+   */
+  BIFFUDP = 512,
+  WHOSERVER = 513,
+  ROUTESERVER = 520,
+  /* 520+1 also used */
 
-/*
- * Ports < IPPORT_RESERVED are reserved for
- * privileged processes (e.g. root).
- */
-export const IPPORT_RESERVED = 1024;
+  /*
+   * Ports < IPPORT_RESERVED are reserved for
+   * privileged processes (e.g. root).
+   */
+  RESERVED = 1024,
+}
 
 /*
  * Types
  */
-export const SOCK_STREAM = 1; /* stream socket */
-export const SOCK_DGRAM = 2; /* datagram socket */
-export const SOCK_RAW = 3; /* raw-protocol interface */
-export const SOCK_RDM = 4; /* reliably-delivered message */
-export const SOCK_SEQPACKET = 5; /* sequenced packet stream */
+export enum TYPE {
+  STREAM = 1 /* stream socket */,
+  DGRAM = 2 /* datagram socket */,
+  RAW = 3 /* raw-protocol interface */,
+  RDM = 4 /* reliably-delivered message */,
+  SEQPACKET = 5 /* sequenced packet stream */,
+}
 
-// TODO: Figure out how to make this work in typescript?
-// if (Socket.PF_INET !== undefined) export const PF_INET = Socket.PF_INET;
-// if (Socket.PF_INET6 !== undefined) export const PF_INET6 = Socket.PF_INET6;
-// if (Socket.AF_INET !== undefined) export const AF_INET = Socket.AF_INET;
-// if (Socket.AF_INET6 !== undefined) export const AF_INET6 = Socket.AF_INET6;
+/**
+ * ListeningSocket Domain
+ */
+export enum LISTENING_DOMAIN {
+  UNSPEC = Socket.PF_UNSPEC,
+  INET = Socket.PF_INET,
+  INET6 = Socket.PF_INET6,
+}
+
+/**
+ * ConnectedSocket Domain
+ */
+export enum CONNECTED_DOMAIN {
+  UNSPEC = Socket.PF_UNSPEC,
+  INET = Socket.AF_INET,
+  INET6 = Socket.AF_INET6,
+}
 
 /* Option name parameter to Socket.getoption/setoption */
 export const sockopts = [

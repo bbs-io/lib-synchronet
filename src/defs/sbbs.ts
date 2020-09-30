@@ -132,7 +132,7 @@ export enum CON_STATUS {
 /**
  * Terminal mouse reporting mode (console.mouse_mode)
  */
-export enum CON_MOUSE_MODE {
+export enum MOUSE_MODE {
   OFF = 0, // No terminal mouse reporting enabled/expected
   X10 = 1 << 0, // X10 compatible mouse reporting enabled
   NORM = 1 << 1, // Normal tracking mode mouse reporting

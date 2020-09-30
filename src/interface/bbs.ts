@@ -1,7 +1,12 @@
 import * as SBBS from "../defs/sbbs";
 import * as NODE from "../defs/node";
 
-export interface Bbs {
+/**
+ * Controls the Telnet/SSH/RLogin BBS experience
+ *
+ * @since v3.10
+ */
+export interface IBbs {
   /**
    * Global repository for 3rd party modifications
    * @since v3.12
@@ -641,16 +646,16 @@ export interface Bbs {
   // **************************************************************************
 
   /**
-   * Get the matching @ code string
-   * @param code_string - code string without @ character delimiters
-   * @returns @-code value
+   * Get the matching `@` code string
+   * @param code_string code string without `@` character delimiters
    * @since 3.10
+   * @returns `@-code` value
    */
-  atCode(code_string: string): string;
+  atcode(code_string: string): string;
 
   /**
    * Get the specified text from the text.dat file.
-   * @param {number} line_number - The line number in the text.dat file to retrieve.
+   * @param {number} line_number The line number in the text.dat file to retrieve.
    * @returns {string} specified text string from text.dat
    * @since 3.10
    */
@@ -658,8 +663,8 @@ export interface Bbs {
 
   /**
    * replaces specified text string in memory
-   * @param line_number - The line number from text.dat to replace in memory.
-   * @param text - The text to use in place of the previous configuration.
+   * @param line_number The line number from text.dat to replace in memory.
+   * @param text The text to use in place of the previous configuration.
    * @returns success result
    * @since 3.10
    */
@@ -667,7 +672,7 @@ export interface Bbs {
 
   /**
    * reverts specified text string to original text string; if line_number unspecified, reverts all text lines
-   * @param line_number - The line number to revert to text.dat configuration.
+   * @param line_number The line number to revert to text.dat configuration.
    * @returns success result
    * @since 3.10
    */
@@ -675,7 +680,7 @@ export interface Bbs {
 
   /**
    * load an alternate text.dat from ctrl directory
-   * @param base_filename - The file to load (without '.dat' extension)
+   * @param base_filename The file to load (without '.dat' extension)
    * @returns success result
    * @since 3.10
    */
@@ -689,9 +694,9 @@ export interface Bbs {
 
   /**
    * login with user_name, displaying password_prompt for user's password (if required), optionally supplying the user's password and the system password as arguments so as to not be prompted
-   * @param password_prompt - Prompt to display to the user for password entry.
-   * @param user_password - Password to enter (skipping prompt)
-   * @param system_password - Systep Password to enter (skipping prompt)
+   * @param password_prompt Prompt to display to the user for password entry.
+   * @param user_password Password to enter (skipping prompt)
+   * @param system_password Systep Password to enter (skipping prompt)
    * @returns success result
    * @since 3.10
    */
@@ -711,7 +716,7 @@ export interface Bbs {
 
   /**
    * interactive logoff procedure, pass false for prompt argument to avoid yes/no prompt
-   * @param {boolean} [prompt=true]
+   * @param prompt (default: true)
    * @since 3.15
    */
   logoff(prompt: boolean): void;
@@ -731,7 +736,7 @@ export interface Bbs {
   /**
    * synchronize with node database, checks for messages, interruption, etc. (AKA node_sync),
    * clears the current console line if there's a message to print when clearline is true.
-   * @param {boolean} [clearline=false]
+   * @param clearline (default: false)
    * @since 3.10
    */
   nodesync(clearline: boolean): void;
@@ -762,7 +767,7 @@ export interface Bbs {
 
   /**
    * enter the external programs section (or go directly to the specified section)
-   * @param section - optional, specific external programs section to enter
+   * @param section optional, specific external programs section to enter
    * @since 3.10
    */
   xtrn_sec(section: string): void;
@@ -789,17 +794,17 @@ export interface Bbs {
 
   /**
    * add file list to batch download queue
-   * @param list_filename - filename for the list to add
+   * @param list_filename filename for the list to add
    * @since 3.10
    */
   batch_add_list(list_filename: string): void;
 
   /**
    * send specified file to user via user-prompted (or optionally specified) protocol.
-   * @param filename - complete path to the file to send
-   * @param protocol - file transfer protocol to use
-   * @param description - optional, used for logging purposes
-   * @param {boolean} [autohang=true] - disconnect after transfer based on user's settings
+   * @param filename complete path to the file to send
+   * @param protocol file transfer protocol to use
+   * @param description optional, used for logging purposes
+   * @param autohang (default: true) disconnect after transfer based on user's settings
    * @returns success result
    * @since 3.14
    */
@@ -812,9 +817,9 @@ export interface Bbs {
 
   /**
    * received specified file from user via user-prompted (or optionally specified) protocol.
-   * @param filename - complete path to the file to receive
-   * @param protocol - the protocol to use (default:prompt)
-   * @param {boolean} [autohang=true] - disconnect after transfer based on user's default setting.
+   * @param filename complete path to the file to receive
+   * @param protocol the protocol to use (default:prompt)
+   * @param autohang (default: true) disconnect after transfer based on user's default setting.
    * @returns success result
    * @since 3.14
    */
@@ -850,14 +855,14 @@ export interface Bbs {
 
   /**
    * display message sub-board information
-   * @param {string} [subboard=current] - the sub-board to display (default: current)
+   * @param subboard (default: current) the sub-board to display (default: current)
    * @since 3.10
    */
   sub_info(subboard: string): void;
 
   /**
    * display file directory information
-   * @param {number | string} [directory=current] - directory to display (default: current)
+   * @param directory (default: current) directory to display (default: current)
    * @since 3.10
    */
   dir_info(directory: number | string): void;
@@ -882,21 +887,21 @@ export interface Bbs {
 
   /**
    * display current (or specified) node statistics
-   * @param {number} [node_number=current] - node number to display (default: current)
+   * @param node_number (default: current) node number to display (default: current)
    * @since 3.10
    */
   node_stats(node_number?: number): void;
 
   /**
    * display user list
-   * @param {SBBS.UL} [mode=UL.ALL] - which users to desplay (default: ALL)
+   * @param mode (default: UL.ALL) which users to desplay (default: ALL)
    * @since 3.10
    */
   list_users(mode: SBBS.UL): void;
 
   /**
    * enter the user editor
-   * @param {number} [user_number=current] - (optional) user number to display (default: current)
+   * @param user_number (default: current) user number to display (default: current)
    * @since 3.10
    */
   edit_user(user_number?: number): void;
@@ -909,16 +914,16 @@ export interface Bbs {
 
   /**
    * display the logon list
-   * @param args - (optional) arguments to pass to the logon list module
+   * @param args (optional) arguments to pass to the logon list module
    * @since 3.10
    */
   list_logons(args: string): void;
 
   /**
    * read private e-mail(see MAIL_* in sbbsdefs.js for valid which values)
-   * @param {SBBS.MAIL} [which=MAIL.YOUR] - mail to read (default: inbox)
-   * @param {number} [user_number=current] - user to read mail for (default: current)
-   * @param {SBBS.LM} [loadmail_mode=LM.DEFAULT] - What mode to load mail in
+   * @param which (default: MAIL.YOUR) mail to read (default: inbox)
+   * @param user_number (default: current) user to read mail for (default: current)
+   * @param loadmail_mode (default: LM.DEFAULT) What mode to load mail in
    * @since 3.10
    */
   read_mail(
@@ -931,11 +936,11 @@ export interface Bbs {
    * send private e-mail to a local user
    * (reply_header added in v3.17c)
    *
-   * @param to_user_number - user to send mail to
-   * @param {SBBS.WM} [mode=WM.EMAIL] - mode to send email with
-   * @param {string} [top=none] - ???
-   * @param {string} [subject=none] - subject of the email
-   * @param {any} [reply_header] - ???
+   * @param to_user_number user to send mail to
+   * @param mode (default: WM.EMAIL) mode to send email with
+   * @param top (default: none) ???
+   * @param subject (default: none) subject of the email
+   * @param reply_header ???
    * @since 3.10
    */
   email(
@@ -950,10 +955,10 @@ export interface Bbs {
    * send private netmail
    * (reply_header added in v3.17c, array of addresses added in v3.18a)
    *
-   * @param address - address or array of addresses to send to
-   * @param mode - Netmail mode-bits
-   * @param subject - Subject of the email
-   * @param reply_header - ???
+   * @param address address or array of addresses to send to
+   * @param mode Netmail mode-bits
+   * @param subject Subject of the email
+   * @param reply_header ???
    * @since 3.10
    */
   netmail(
@@ -965,38 +970,37 @@ export interface Bbs {
 
   /**
    * send bulk private e-mail, if ars not specified, prompt for destination users
-   * @param ars - ARS String to use as a filter of the users to send mail to. (default: prompt)
-   * bbs.bulk_mail([ars])
+   * @param ars ARS String to use as a filter of the users to send mail to. (default: prompt)
    * @since 3.10
    */
   bulk_mail(ars?: string): void;
 
   /**
    * upload file to file directory specified by number or internal code
-   * @param directory - Directory to upload to (default: current)
+   * @param directory Directory to upload to (default: current)
    * @since 3.10
    */
   upload_file(directory?: number | string): boolean;
 
   /**
    * add files (already in local storage path) to file directory specified by number or internal code
-   * @param directory - Directory to upload to (default: current)
+   * @param directory Directory to upload to (default: current)
    * @since 3.10
    */
   bulk_upload(directory?: number | string): boolean;
 
   /**
    * re-sort the file directory specified by number or internal code)
-   * @param directory - Directory to resurl (default: current)
+   * @param directory Directory to resurl (default: current)
    * @since 3.10
    */
   resort_dir(directory?: number | string): boolean;
 
   /**
    * list files in the specified file directory, optionally specifying a file specification (wildcards) or a description search string, and mode (bitfield)
-   * @param directory - Directory to list (default: current)
-   * @param filespec - Search string (default: "*.*")
-   * @param mode - File List mode (default:FL.NONE)
+   * @param directory Directory to list (default: current)
+   * @param filespec Search string (default: "*.*")
+   * @param mode File List mode (default:FL.NONE)
    * @since 3.10
    */
   list_files(
@@ -1007,9 +1011,9 @@ export interface Bbs {
 
   /**
    * list extended file information for files in the specified file directory
-   * @param directory - Directory to list (default: current)
-   * @param filespec - Search string (default: "*.*")
-   * @param mode - File List mode (default:FI.INFO)
+   * @param directory Directory to list (default: current)
+   * @param filespec Search string (default: "*.*")
+   * @param mode File List mode (default:FI.INFO)
    * @since 3.10
    */
   list_file_info(
@@ -1022,9 +1026,9 @@ export interface Bbs {
    * post a message in the specified message sub-board (number or internal code) with optional mode (bitfield)
    * (reply_header added in v3.17c)
    *
-   * @param subboard - subboard to post to (default: current)
-   * @param mode - write mode to use (default:WM.NONE)
-   * @param reply_header - header object returned from MsgBase.get_msg_header(), used for in-reply-to fields
+   * @param subboard subboard to post to (default: current)
+   * @param mode write mode to use (default:WM.NONE)
+   * @param reply_header header object returned from MsgBase.get_msg_header(), used for in-reply-to fields
    * @since 3.13
    */
   post_msg(sub_board?: string, mode?: SBBS.WM, reply_header?: any): boolean;
@@ -1032,18 +1036,18 @@ export interface Bbs {
   /**
    * show a message's header and body (text) with optional print mode (bitfield)
    * header must be a header object returned from MsgBase.get_msg_header())
-   * @param header - must be a header object returned from MsgBase.get_msg_header())
-   * @param mode - putmsg mode bits
+   * @param header must be a header object returned from MsgBase.get_msg_header())
+   * @param mode putmsg mode bits
    * @since 3.17c
    */
   show_msg(header: any, mode: SBBS.P): boolean;
 
   /**
    * show a message's header (only)
-   * @param header - must be a header object returned from MsgBase.get_msg_header())
-   * @param subject - subject of the message header to show (default: interpreted via header)
-   * @param from - from for the message header to show (default: interpreted via header)
-   * @param to - to for the message header to show (default: interpreted via header)
+   * @param header must be a header object returned from MsgBase.get_msg_header())
+   * @param subject subject of the message header to show (default: interpreted via header)
+   * @param from from for the message header to show (default: interpreted via header)
+   * @param to to for the message header to show (default: interpreted via header)
    * @since 3.17c
    */
   show_msg_header(
@@ -1055,14 +1059,14 @@ export interface Bbs {
 
   /**
    * prompt the user to download each of the message's file attachments (if there are any)
-   * @param header - must be a header object returned from MsgBase.get_msg_header())
+   * @param header must be a header object returned from MsgBase.get_msg_header())
    * @since 3.17c
    */
   download_msg_attachments(header: any): void; // TODO: header interface
 
   /**
    * prompt the user to modify the specified message header attributes
-   * @param header - must be a header object returned from MsgBase.get_msg_header())
+   * @param header must be a header object returned from MsgBase.get_msg_header())
    * @returns ???
    * @since 3.17c
    */
@@ -1070,7 +1074,7 @@ export interface Bbs {
 
   /**
    * configure message scan
-   * @param type - type of scan to perform (default:SCAN.NEW)
+   * @param type type of scan to perform (default:SCAN.NEW)
    * @since 3.10
    */
   cfg_msg_scan(type?: SBBS.SCAN.NEW | SBBS.SCAN.TOYOU): void;
@@ -1089,26 +1093,25 @@ export interface Bbs {
 
   /**
    * scan sub-boards for messages
-   * bbs.scan_subs([mode=SCAN_NEW] [,all=false])
-   * @param mode - scan mode (default:SCAN.NEW)
-   * @param all - ??? (groups, subs in group)
+   * @param mode scan mode (default: SCAN.NEW)
+   * @param all (default: false) ??? (groups, subs in group)
    * @since 3.10
    */
   scan_subs(mode?: SBBS.SCAN, all?: boolean): void;
 
   /**
    * scan directories for files
-   * @param mode - File List mode bits (default:FL.NONE)
-   * @param all - ??? (groups, dirs in group)
+   * @param mode File List mode bits (default:FL.NONE)
+   * @param all ??? (groups, dirs in group)
    * @since 3.10
    */
   scan_dirs(mode?: SBBS.FL, all?: boolean): void;
 
   /**
    * scan messages in the specified message sub-board
-   * @param {string | number} [subboard=current] - number or internal code
-   * @param {SBBS.SCAN} [mode=SCAN.READ] - scan mode (default:SCAN.READ)
-   * @param find - search string
+   * @param subboard (default: current) number or internal code
+   * @param mode (default: SCAN.READ) scan mode (default:SCAN.READ)
+   * @param find search string
    * @returns ???
    * @since 3.10
    */
@@ -1120,10 +1123,10 @@ export interface Bbs {
 
   /**
    * list messages in the specified message sub-board
-   * @param {string | number} [subboard=current] - number or internal code
-   * @param {SBBS.SCAN} [mode=SCAN.INDEX]
-   * @param {number} [message_number=0]
-   * @param find - search string
+   * @param subboard (default: current) number or internal code
+   * @param mode (default: SCAN.INDEX) scan mode
+   * @param message_number (default: 0) message number to start with
+   * @param find search string
    * @returns number of messages listed
    * @since 3.14
    */
@@ -1137,16 +1140,16 @@ export interface Bbs {
   /**
    * display a menu file from the text/menu directory.
    *
-   * @param base_filename - file to display, excluding extension, use * or ? wild-cards for random matching selection)
-   * @param mode - putmsg bitwise options (default: NONE)
-   * @param scope - When specified, @JS:property@ codes int he file will expand the referenced property names.
+   * @param base_filename file to display, excluding extension, use * or ? wild-cards for random matching selection)
+   * @param mode putmsg bitwise options (default: NONE)
+   * @param scope When specified, @JS:property@ codes int he file will expand the referenced property names.
    * @since 3.10
    */
   menu(base_filename: string, mode?: SBBS.P, scope?: any): boolean;
 
   /**
    * returns true if the referenced text/menu file exists
-   * @param base_filename - file to display, excluding extension, * or ? wild-cards allowed (???)
+   * @param base_filename file to display, excluding extension, * or ? wild-cards allowed (???)
    * @returns has a matching file to display
    * @since 3.17
    */
@@ -1163,7 +1166,7 @@ export interface Bbs {
 
   /**
    * log string to node.log
-   * @param text - message to log
+   * @param text message to log
    * @returns success result
    * @since 3.10
    */
@@ -1171,7 +1174,7 @@ export interface Bbs {
 
   /**
    * find user name (partial name support), interactive
-   * @param username_or_number - string or number to match against
+   * @param username_or_number string or number to match against
    * @returns number of user matched ???
    * @since 3.10
    */
@@ -1179,17 +1182,17 @@ export interface Bbs {
 
   /**
    * search file for pseudo-regexp (search string) in trashcan file (text/base_filename.can)
-   * @param base_filename - trashcan file to search in (without path or .can extension)
-   * @param search_string - string to match against in the file
+   * @param base_filename trashcan file to search in (without path or .can extension)
+   * @param search_string string to match against in the file
    * @since 3.10
    */
   trashcan(base_filename: string, search_strings: string): boolean;
 
   /**
    * execute a program, optionally changing current directory to startup_dir
-   * @param cmdline - command line to execute
-   * @param mode - mode bits to operate under (default:EX.NONE)
-   * @param startup_dir - if set, will change working directory to the startup_dir
+   * @param cmdline command line to execute
+   * @param mode mode bits to operate under (default:EX.NONE)
+   * @param startup_dir if set, will change working directory to the startup_dir
    * @returns ???
    * @since 3.10
    */
@@ -1197,7 +1200,7 @@ export interface Bbs {
 
   /**
    * execute external program by number or internal code
-   * @param xtrn_number_or_code - the number or internal code of the external program to run
+   * @param xtrn_number_or_code the number or internal code of the external program to run
    * @returns success result
    * @since 3.10
    */
@@ -1205,7 +1208,7 @@ export interface Bbs {
 
   /**
    * execute user event by event type
-   * @param event_type - event to run
+   * @param event_type event to run
    * @returns success result
    * @since 3.10
    */
@@ -1214,8 +1217,8 @@ export interface Bbs {
   /**
    * external Telnet gateway
    *
-   * @param address - address to connect to
-   * @param mode - option bits to connect using (default: TG.NONE)
+   * @param address address to connect to
+   * @param mode option bits to connect using (default: TG.NONE)
    * @since 3.10
    */
   telnet_gate(address: string, mode?: SBBS.TG): void;
@@ -1223,11 +1226,11 @@ export interface Bbs {
   /**
    * external RLogin gateway
    *
-   * @param address - address to connect to
-   * @param client_user_name - username on the client system
-   * @param server_user_name - username on the server system
-   * @param terminal - terminal to connect with (default: console.terminal)
-   * @param mode - option bits to connect using (default: TG.NONE)
+   * @param address address to connect to
+   * @param client_user_name username on the client system
+   * @param server_user_name username on the server system
+   * @param terminal terminal to connect with (default: console.terminal)
+   * @param mode option bits to connect using (default: TG.NONE)
    * @since 3.16
    */
   rlogin_gate(
@@ -1240,7 +1243,7 @@ export interface Bbs {
 
   /**
    * verify system password, prompting for the password if not passed as an argument
-   * @param systemPassword - the system password to check (default: interactive prompt)
+   * @param systemPassword the system password to check (default: interactive prompt)
    * @return success result
    * @since 3.10
    */
@@ -1248,7 +1251,7 @@ export interface Bbs {
 
   /**
    * check if requested user password meets minimum password requirements (length, uniqueness, etc.)
-   * @param password - password to validate for minimum requirements
+   * @param password password to validate for minimum requirements
    * @return success result
    * @since 3.10
    */
@@ -1282,22 +1285,22 @@ export interface Bbs {
 
   /**
    * enter private inter-node chat, or local sysop chat (if local=true)
-   * @param local - sysop chat when true (default: false)
+   * @param local sysop chat when true (default: false)
    * @since 3.10
    */
   private_chat(local?: boolean): void;
 
   /**
    * receive and display an inter-node message
-   * @param clearline - clear the current line (default: false)
+   * @param clearline clear the current line (default: false)
    * @since 3.10
    */
   get_node_message(clearline?: boolean): void;
 
   /**
    * send an inter-node message (specify a node_number value of -1 for 'all active nodes')
-   * @param node - number of the node to send to, -1 for all nodes (default: ???)
-   * @param text - text of the message to send to the node(s) in question
+   * @param node number of the node to send to, -1 for all nodes (default: ???)
+   * @param text text of the message to send to the node(s) in question
    * @returns success result
    * @since 3.17
    */
@@ -1305,16 +1308,16 @@ export interface Bbs {
 
   /**
    * receive and display waiting telegrams for specified (or current) user
-   * @param {number} [user=current] - the user number to receive telegrams for (default: current)
-   * @param {boolean} [clearline=false] - clear the current line (default: false)
+   * @param user (default: current) the user number to receive telegrams for (default: current)
+   * @param clearline (default: false) clear the current line (default: false)
    * @since 3.10
    */
   get_telegram(user?: number, clearline?: boolean): void;
 
   /**
    * send a telegram (short multi-line stored message) to a user
-   * @param user - user number to send a telegram to
-   * @param text - text to send to the user
+   * @param user user number to send a telegram to
+   * @param text text to send to the user
    * @since 3.17
    */
   put_telegram(user?: number, text?: string): boolean;
@@ -1333,16 +1336,16 @@ export interface Bbs {
 
   /**
    * spy on a node
-   * @param node - number of the node to spy on
+   * @param node number of the node to spy on
    * @since 3.10
    */
   spy(node: number): void;
 
   /**
    * return expanded command string using Synchronet command-line specifiers
-   * @param command - command string to process
-   * @param fpath - file path (default: "")
-   * @param fspec - fspec (default: "")
+   * @param command command string to process
+   * @param fpath file path (default: "")
+   * @param fspec fspec (default: "")
    * @since 3.10
    */
   cmdstr(command: string, fpath: string, fspec: string): string;
@@ -1356,7 +1359,7 @@ export interface Bbs {
 
   /**
    * confirm or change a new-scan time, returns the new new-scan time value (time_t format)
-   * @param time - TIME_T formatted time (default: current)
+   * @param time (default: current) TIME_T formatted time
    * @returns newscan time (TIME_T format)
    * @since 3.10
    */
@@ -1387,7 +1390,7 @@ export interface Bbs {
   /**
    * verify the current user online meets the specified Access Requirements String
    * bbs.compare_ars(ars)
-   * @param ars - Access Requirements String to check
+   * @param ars Access Requirements String to check
    * @returns User is a match
    * @since 3.15
    */
@@ -1395,7 +1398,7 @@ export interface Bbs {
 
   /**
    * Choose an active node to interact with.
-   * @param all_is_an_option - if 'All' is allowed
+   * @param all_is_an_option if 'All' is allowed
    * @returns the selected node number, 0 (for none) or -1 for 'All'
    * @since 3.17
    */

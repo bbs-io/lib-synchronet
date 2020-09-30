@@ -1,6 +1,11 @@
-import { FL } from "./defs/sbbs";
-import { Bbs } from "./type/bbs";
+import { IBbs } from "./interface/bbs";
+import { IJs } from "./interface/js";
+import { COM } from "./interface/com";
 
 declare global {
-  const bbs: Bbs;
+  const js: IJs;
+  const bbs: IBbs;
+  const COM: COM;
 }
+
+export { js, bbs, COM };

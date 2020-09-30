@@ -1,7 +1,7 @@
 /**
  * Bit options for User.settings
  */
-export enum USER {
+export enum TERM {
   DELETED = 1 << 0, // Deleted user slot
   ANSI = 1 << 1, // Supports ANSI terminal emulation
   COLOR = 1 << 2, // Send color codes
